@@ -21,7 +21,7 @@ export class TodoService {
     setTodoarray(todos) {
         this.todoarray = todos;
     }
-
+   
     getTodoarray() {
         return this.todoarray;
     }

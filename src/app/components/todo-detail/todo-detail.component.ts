@@ -43,8 +43,11 @@ export class TodoDetailComponent implements OnInit {
       if (index == -1) {
         this.todoService.createTodo(this.todoDetail).subscribe(
           resp => {
+            this.todoService.todoarray.push(this.todoDetail);
+            console.log(this.todoService.todoarray)
             console.log('retruned Post object');
             console.log(resp);
+            this.router.navigate(['/todo-list']);
           },
           (err: HttpErrorResponse) => {
             console.log(err.error);
@@ -53,8 +56,13 @@ export class TodoDetailComponent implements OnInit {
       } else {
         this.todoService.UpdateTodo(this.todoDetail.title).subscribe(
           resp => {
+            let index =this.todoService.todoarray.findIndex(i => i.id == this.todoDetail.id);
+            todoarray.splice(index, 1);  
+            this.todoService.todoarray.push(this.todoDetail);
+            console.log(this.todoService.todoarray)
             console.log('retruned Put object');
             console.log(resp);
+            this.router.navigate(['/todo-list']);
           },
           (err: HttpErrorResponse) => {
             console.log(err.error);

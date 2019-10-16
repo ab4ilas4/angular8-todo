@@ -24,18 +24,27 @@ export class TodoListComponent implements OnInit {
   constructor(private router: Router, private todoService: TodoService) { }
 
   ngOnInit() {
-    this.todoService.getAllTodos().subscribe(
-      (resp: Todo[]) => {
-        this.todos = resp;
-        this.todoService.setTodoarray(this.todos);
-        this.dataSource = new MatTableDataSource(this.todos);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      (err: HttpErrorResponse) => {
-        console.log(err.error);
-      }
-    );
+    this.todos=this.todoService.getTodoarray();
+    if(this.todos){
+      this.todoService.setTodoarray(this.todos);
+      this.dataSource = new MatTableDataSource(this.todos);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }else{
+      this.todoService.getAllTodos().subscribe(
+        (resp: Todo[]) => {
+          this.todos = resp;
+          this.todoService.setTodoarray(this.todos);
+          this.dataSource = new MatTableDataSource(this.todos);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        (err: HttpErrorResponse) => {
+          console.log(err.error);
+        }
+      );
+    }
+   
   }
 
 
@@ -53,8 +62,12 @@ export class TodoListComponent implements OnInit {
       let todoarray=this.todoService.getTodoarray() 
       let index = todoarray.indexOf(todo);  
       todoarray.splice(index, 1);  
-      this.dataSource = new MatTableDataSource(todoarray);
-    });;
+      this.dataSource =  new MatTableDataSource<Todo>(todoarray);
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+      });
+   
+    });
    
   }
 
