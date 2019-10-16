@@ -9,12 +9,10 @@ const routes: Routes = [
     },
     {
         path: 'todo-list',
-        loadChildren: () => import('./components/todo-list/todo-list.module').then(mod => mod.TodoListModule)
-    },
+        loadChildren:'./components/todo-list/todo-list.module#TodoListModule'},
     {
         path: 'todo-detail',
-        loadChildren: () => import('./components/todo-detail/todo-detail.module').then(mod => mod.TodoDetailModule)
-    }
+        loadChildren:'./components/todo-detail/todo-detail.module#TodoDetailModule' }
 ];
 
 @NgModule({
